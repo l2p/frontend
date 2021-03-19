@@ -1,38 +1,47 @@
-import React, {Component} from 'react';
+import React from 'react';
 import Axios from 'axios';
 import Grid from '@material-ui/core/Grid';
 import Post from '../components/post';
 
 
-export default class Accueil extends Component {
+export default class Accueil extends React.Component {
+
   state = {
-    posts: []
+    isLoading: true,
+    posts:[],
+    error:null
   }
 
   async getPosts() {
+    const res = await Axios.get("http://localhost:5000/api/post");
     try {
-      const response = await Axios.get('http://localhost:5000/api/post');
-      console.log(response);
-      return response;
+      this.setState({
+        posts: res.data,
+        isLoading: false
+      });
     } catch (error) {
-      console.error(`Erreur list posts: ${error}`);
+      this.setState({ error, isLoading: false });
     }
   }
 
   componentDidMount() {
-    this.setState({
-      posts: this.getPosts()
-    })
+    this.getPosts();
   }
 
   render() {
+    const { isLoading, posts,  error } = this.state;
     return (
       <main>
-          <Grid container spacing={4} className="">
-          {this.state.posts.map((post) => (
-              <Post key={post.id} post={post} />
-          ))}
-          </Grid>
+        {error ? <p>{error.message}</p> : null}
+        <Grid container spacing={4} className="">
+            {!isLoading ? (
+              posts.map(postItem => {
+                <Post key={postItem._id} post={postItem} />
+              })
+            ) : (
+              <p>Loading...</p>
+            )}
+          </Grid>  
       </main>
     );
   }
