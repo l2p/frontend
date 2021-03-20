@@ -36,7 +36,7 @@ export default class Accueil extends React.Component {
         <Grid container spacing={4} className="">
             {!isLoading ? (
               posts.map(postItem => {
-                <Post key={postItem._id} post={postItem} />
+                return <Post key={postItem._id} post={postItem} />
               })
             ) : (
               <p>Loading...</p>

@@ -45,7 +45,7 @@ export default function App() {
             <Route path="/login">
               <Login />
             </Route>
-            <Route path="/post/:slug">
+            <Route path="/post/:postId">
               <PostDetails />
             </Route>
             <Route path="*">

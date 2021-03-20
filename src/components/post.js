@@ -25,8 +25,6 @@ export default function Post(props) {
   const classes = useStyles();
   const { post } = props;
 
-  console.log(props);
-
   return (
     <Grid item xs={12} md={6}>
       <CardActionArea component="a" href={'/post/'+post._id}>
